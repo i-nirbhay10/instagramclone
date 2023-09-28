@@ -1,11 +1,13 @@
-// import Signup from "./Signup";
-import Signin from "./Signin";
+import Nevbar from "./Nevbar";
+import Post from "./Post";
 
 const Home = () => {
   return (
     <>
-      {/* <Signup /> */}
-      <Signin />
+      <div>
+        <Nevbar />
+        <Post />
+      </div>
     </>
   );
 };
