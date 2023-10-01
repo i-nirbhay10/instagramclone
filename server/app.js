@@ -8,6 +8,7 @@ app.use(express.json()); //for json data reeding
 dotenv.config({ path: "./.env" }); // useing dotenv
 require("./database/connection");
 app.use(require("./router/route"));
+app.use(require("./router/post"));
 
 app.use(cors());
 port = 5000;

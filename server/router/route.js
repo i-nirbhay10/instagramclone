@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
 const USER = require("../Schema/model");
+const loginauth = require("../middleware/loginauth");
 
 // Home router
 router.get("/", (req, res) => {
@@ -49,7 +51,10 @@ router.post("/signin", async (req, res) => {
 
     if (user) {
       if (user.password === password) {
-        return res.status(200).json({ message: "Logged in sucsessfull" });
+        const token = jwt.sign({ _id: user._id }, process.env.SECRET);
+        console.log(token);
+        return res.status(200).json(token);
+        // return res.status(200).json({ message: "Logged in sucsessfull" });
       } else {
         return res.status(422).json({ message: "Invalid email or password" });
       }
@@ -61,5 +66,12 @@ router.post("/signin", async (req, res) => {
     return res.status(500).json({ error: "Login failed" });
   }
 });
+
+//CREATE POST
+
+// router.get("/createpost", loginauth, (req, res) => {
+//   console.log(req.user);
+//   res.json({ massege: "enter in creapost" });
+// });
 
 module.exports = router;

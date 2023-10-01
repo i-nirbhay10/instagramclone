@@ -44,7 +44,8 @@ const Signin = () => {
       notifyE(data.message);
       console.log("invelid cradintial ");
     } else {
-      notifyS(data.message);
+      localStorage.setItem("jwt", data);
+      notifyS("Logged in sucsessfull");
       console.log("registration successfull");
       navigate("/Home");
     }

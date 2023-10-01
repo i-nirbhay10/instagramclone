@@ -49,13 +49,13 @@ const Navbar = () => {
               Profile
             </Link>
           </li>
+
           <li className="md:text-lg">
-            <Link to="#" className="flex gap-2 items-center  menu-item">
+            <Link to="/" className="flex gap-2 items-center  menu-item">
               <FaHeart className="menu-icon" />
-              Likes
+              Logout
             </Link>
           </li>
-          {/* Add more menu items as needed */}
         </ul>
       </div>
     </div>
