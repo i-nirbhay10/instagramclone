@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import Createpost from "./components/Createpost";
 import Profile from "./components/Profile";
+import Logout from "./components/Logout";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route exact path="/Home" element={<Home />} />
           <Route exact path="/Createpost" element={<Createpost />} />
           <Route exact path="/Profile" element={<Profile />} />
+          <Route exact path="/Logout" element={<Logout />} />
           <Route
             path="*"
             element={

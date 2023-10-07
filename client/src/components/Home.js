@@ -8,10 +8,10 @@ const Home = () => {
 
   useEffect(() => {
     const result = localStorage.getItem("jwt");
-    console.log(result);
     if (!result) {
       navigate("/");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

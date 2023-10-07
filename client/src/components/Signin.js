@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -50,6 +50,15 @@ const Signin = () => {
       navigate("/Home");
     }
   };
+
+  useEffect(() => {
+    const result = localStorage.getItem("jwt");
+    if (result) {
+      navigate("/Home");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <div className="flex h-screen justify-center ">
@@ -93,7 +102,7 @@ const Signin = () => {
               </div>
               <div className="text-center">
                 <button
-                  className="w-full bg-sky-400 text-white p-1 my-3 rounded-md"
+                  className="w-full bg-sky-400 hover:bg-sky-600 text-white p-1 my-3 rounded-md"
                   type="submit"
                   onClick={clicked}
                 >
