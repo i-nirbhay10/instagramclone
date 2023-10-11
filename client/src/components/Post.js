@@ -139,10 +139,10 @@ const Post = () => {
       console.log(data);
 
       const newData = allposts.map((posts) => {
-        if (posts._id === data._id) {
-          setusercomment(" ");
-          // getallpost();
-          return data;
+        console.log(posts._id);
+        if (posts._id === data.comment_result._id) {
+          setusercomment("");
+          return data.comment_result;
         } else {
           return posts;
         }
@@ -227,7 +227,7 @@ const Post = () => {
                       <span>{posts.caption}</span>
                     </div>
                     <div className="px-1 pb-1 cursor-pointer ">
-                      {/* view all 20 comments ... */}
+                      {/* view all comments ... */}
                       <Comment
                         items={posts}
                         userdetails={logeduser}

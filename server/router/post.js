@@ -7,14 +7,14 @@ const POST = require("../Schema/post");
 router.get("/getuserprofile", loginauth, async (req, res) => {
   try {
     // console.log(req.user);
-    const { name, _id } = req.user;
+    const { name, _id, username } = req.user;
+    const userdata = { name, _id, username };
     // const user = await req.user;
     // console.log(user);
-    const userposts = await POST.find({ postedBy: _id }).populate(
-      "postedBy",
-      "_id name"
-    );
-    return res.status(200).json({ userposts, name, _id });
+    const userposts = await POST.find({ postedBy: _id })
+      .populate("postedBy", "_id name")
+      .populate("comments.postedBy", "_id name username");
+    return res.status(200).json({ userposts, userdata });
   } catch (error) {
     console.log(error);
     res.json({ massege: "get error in getuserprofile" });
@@ -75,7 +75,9 @@ router.put("/userlike", loginauth, async (req, res) => {
       {
         new: true,
       }
-    ).populate("postedBy", "_id name");
+    )
+      .populate("postedBy", "_id name")
+      .populate("comments.postedBy", "_id name username");
     if (result) {
       console.log("get user post like", result);
       return res.status(200).json({ result, logeduser });
@@ -97,7 +99,9 @@ router.put("/userunlike", loginauth, async (req, res) => {
       {
         new: true,
       }
-    ).populate("postedBy", "_id name");
+    )
+      .populate("postedBy", "_id name")
+      .populate("comments.postedBy", "_id name username");
     if (result) {
       console.log("get user post unlike", result);
       return res.status(200).json({ result });
@@ -141,6 +145,87 @@ router.put("/comment", loginauth, async (req, res) => {
   } catch (error) {
     console.log(error);
     res.json({ massege: "get error in comment" });
+  }
+});
+
+// delete post
+
+// router.delete("/deletepost", loginauth, async (req, res) => {
+//   try {
+//     const { postId } = await req.body;
+//     // const data = {
+//     //   postedBy: req.user._id,
+//     // };
+
+//     if (!postId) {
+//       return res
+//         .status(422)
+//         .json({ massege: "some thing is wrong pleese try again" });
+//     }
+//     const result = await POST.findByIdAndDelete(postId).populate(
+//       "postedBy",
+//       "_id name"
+//     );
+//     // .populate("comments.postedBy", "_id name username")
+//     // const postedById = await result.postedBy._id;
+//     if (result.postedBy._id.toString() === req.user._id.toString()) {
+//       console.log("information match");
+//       result.remove();
+//     }
+
+//     // console.log(postedById);
+//     // console.log(req.user._id.toString());
+
+//     return res.status(200).json({ massege: "post deleted" });
+//   } catch (error) {
+//     console.log(error);
+//     res.json({ massege: "get error in comment" });
+//   }
+// });
+
+router.delete("/deletepost", loginauth, async (req, res) => {
+  try {
+    const { postId } = req.body;
+
+    if (!postId) {
+      return res
+        .status(422)
+        .json({ message: "Something is wrong, please try again" });
+    }
+
+    const post = await POST.findById(postId);
+
+    // console.log(post);
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    if (post.postedBy._id.toString() === req.user._id.toString()) {
+      // return res.status(403).json({ message: "delete" });
+      const result = await POST.findByIdAndDelete(postId); // Added "await" and store the result
+      console.log(result);
+      if (result) {
+        return res.status(200).json({ message: "Post deleted" });
+      } else {
+        return res.status(500).json({ message: "Failed to delete the post" });
+      }
+    } else {
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to delete this post" });
+    }
+
+    // const result = await POST.findByIdAndDelete(postId); // Added "await" and store the result
+
+    // if (result) {
+    //   return res.status(200).json({ message: "Post deleted" });
+    // } else {
+    //   return res.status(500).json({ message: "Failed to delete the post" });
+    // }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "An error occurred" });
   }
 });
 

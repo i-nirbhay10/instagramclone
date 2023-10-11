@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaHeart, FaRegHeart, FaRegSmile } from "react-icons/fa";
+import { AiOutlineClose } from "react-icons/ai";
 
 const Comment = (props) => {
   const { items, userdetails, likefun, unlikefun, comment_update } = props;
@@ -30,19 +31,11 @@ const Comment = (props) => {
 
       const data = await res.json();
       console.log(data);
-      // const newData = allposts.map((posts) => {
-      if (data) {
-        // setusercomment(" ");
-        comment_update(data);
-      }
-      // });
-      // console.log(newData);
-      // setallposts(newData);
 
-      // Update the UI with the new comment
-      // You should fetch the updated post data from the server instead of updating locally
-      // and then update the state in the Post component
-      // Example: Call a function in the Post component to refresh the post data
+      if (data) {
+        comment_update(data);
+        setUserComment("");
+      }
     } catch (error) {
       console.error("Network error:", error);
     }
@@ -108,10 +101,10 @@ const Comment = (props) => {
                           toggel();
                         }}
                       >
-                        close
+                        <AiOutlineClose className="mr-2 text-2xl" />
                       </div>
                     </div>
-                    <div className="p-2 max-h-44 max-w-md overflow-auto">
+                    <div className="p-2 max-h-48 max-w-md overflow-auto">
                       {items.comments.map((Comment_items) => {
                         return (
                           <div>
@@ -166,8 +159,6 @@ const Comment = (props) => {
                           className="text-md text-indigo-600"
                           onClick={() => {
                             postComment();
-                            // Optionally, you can also fetch updated post data and refresh the UI
-                            // Example: Call a function in the Post component to refresh the post data
                           }}
                         >
                           Post

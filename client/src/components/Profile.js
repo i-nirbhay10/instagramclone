@@ -1,12 +1,23 @@
 import React, { useEffect, useState } from "react";
 import Nevbar from "./Nevbar";
 import { useNavigate } from "react-router-dom";
+import Profiledetails from "./Profiledetails";
 
 const Profile = () => {
   const navigate = useNavigate();
-
   const [photos, setphoto] = useState();
   const [user, setuser] = useState();
+  const [toggelcomment, settoggelcomment] = useState(false);
+  const [posts, setPosts] = useState([]);
+
+  const toggel = (pics) => {
+    if (!toggelcomment) {
+      settoggelcomment(true);
+      setPosts(pics);
+    } else {
+      settoggelcomment(false);
+    }
+  };
 
   const getdata = async () => {
     try {
@@ -20,7 +31,7 @@ const Profile = () => {
       const data = await res.json();
       if (res.status === 200) {
         console.log(data);
-        setuser(data.name);
+        setuser(data.userdata);
         setphoto(data.userposts);
       } else {
         // Handle the case where the request was not successful
@@ -55,11 +66,11 @@ const Profile = () => {
                 <img
                   src="https://images.unsplash.com/photo-1692624571955-ad757fff0fb8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1691&q=80"
                   alt="profile pic"
-                  className="h-20 w-20  sm:h-40 md:w-40 rounded-full border-2 border-indigo-600"
+                  className="h-20 w-20  sm:h-36 md:w-36 rounded-full border-2 border-indigo-600"
                 />
                 {user ? (
                   <div className="text-center md:text-xl items-center m-2">
-                    {user}
+                    {user.name}
                   </div>
                 ) : (
                   ""
@@ -84,13 +95,28 @@ const Profile = () => {
               <div className="grid grid-cols-3 p-2">
                 {photos.map((pics) => {
                   return (
-                    <img
-                      key={pics._id}
-                      src={pics.photo}
-                      // src="logo192.png"
-                      alt="profile pic"
-                      className="p-0.5 h-36 w-36"
-                    />
+                    <>
+                      <div key={pics._id}>
+                        <img
+                          src={pics.photo}
+                          // src="logo192.png"
+                          alt="profile pic"
+                          className="p-0.5 h-36 w-36"
+                          onClick={() => {
+                            toggel(pics);
+                          }}
+                        />
+                      </div>
+                      {toggelcomment ? (
+                        <Profiledetails
+                          items={posts}
+                          toggel_details={toggel}
+                          postdelete={getdata}
+                        />
+                      ) : (
+                        ""
+                      )}
+                    </>
                   );
                 })}
               </div>
