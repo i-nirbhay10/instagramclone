@@ -150,39 +150,6 @@ router.put("/comment", loginauth, async (req, res) => {
 
 // delete post
 
-// router.delete("/deletepost", loginauth, async (req, res) => {
-//   try {
-//     const { postId } = await req.body;
-//     // const data = {
-//     //   postedBy: req.user._id,
-//     // };
-
-//     if (!postId) {
-//       return res
-//         .status(422)
-//         .json({ massege: "some thing is wrong pleese try again" });
-//     }
-//     const result = await POST.findByIdAndDelete(postId).populate(
-//       "postedBy",
-//       "_id name"
-//     );
-//     // .populate("comments.postedBy", "_id name username")
-//     // const postedById = await result.postedBy._id;
-//     if (result.postedBy._id.toString() === req.user._id.toString()) {
-//       console.log("information match");
-//       result.remove();
-//     }
-
-//     // console.log(postedById);
-//     // console.log(req.user._id.toString());
-
-//     return res.status(200).json({ massege: "post deleted" });
-//   } catch (error) {
-//     console.log(error);
-//     res.json({ massege: "get error in comment" });
-//   }
-// });
-
 router.delete("/deletepost", loginauth, async (req, res) => {
   try {
     const { postId } = req.body;
@@ -215,14 +182,34 @@ router.delete("/deletepost", loginauth, async (req, res) => {
         .status(403)
         .json({ message: "You are not authorized to delete this post" });
     }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+});
 
-    // const result = await POST.findByIdAndDelete(postId); // Added "await" and store the result
+//  get any user profile
 
-    // if (result) {
-    //   return res.status(200).json({ message: "Post deleted" });
-    // } else {
-    //   return res.status(500).json({ message: "Failed to delete the post" });
-    // }
+router.get("/usersprofile/:id", loginauth, async (req, res) => {
+  try {
+    const postId = req.params.id;
+
+    if (!postId) {
+      console.log("not found");
+      return res.status(404).json({ message: "user not found" });
+    }
+
+    const post = await POST.findById(postId).populate("postedBy", "_id name");
+
+    const userallposts = await post.postedBy._id;
+    const userdata = await post.postedBy;
+
+    const userposts = await POST.find({ postedBy: userallposts })
+      .populate("postedBy", "_id name")
+      .populate("comments.postedBy", "_id name username");
+
+    // console.log(user);
+    return res.status(200).json({ userposts, userdata });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "An error occurred" });
@@ -230,63 +217,3 @@ router.delete("/deletepost", loginauth, async (req, res) => {
 });
 
 module.exports = router;
-
-//user like
-// router.put("/userlike", loginauth, async (req, res) => {
-//   try {
-//     // console.log(req.user);
-//     // const user = await req.user;
-//     console.log(req.body.postId);
-
-//     const result = await POST.findByIdAndUpdate(
-//       req.body.postId,
-//       {
-//         $push: { likes: req.user._id },
-//       },
-//       {
-//         new: true,
-//       }
-//     ).populate("postedBy", "_id name Photo");
-//     if (result) {
-//       console.log("get user post like", result);
-//       return res.status(200).json(result);
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     res.json({ massege: "get error in user like" });
-//   }
-// });
-
-// //user like
-// router.put("/userunlike", loginauth, async (req, res) => {
-//   try {
-//     // console.log(req.user);
-//     // const user = await req.user;
-//     // const userposts = await POST.findByIdAndUpdate(req.body.postId, {
-//     console.log(req.body.postId);
-//     const result = await POST.findByIdAndUpdate(
-//       req.body.postId,
-//       {
-//         $pull: { likes: req.user._id },
-//       },
-//       {
-//         new: true,
-//       }
-//     );
-//     if (result) {
-//       console.log("get user post unlike", result);
-//       return res.status(200).json(result);
-//     }
-
-//     // .exec((err, result) => {
-//     //   if (err) {
-//     //     return res.status(422).json({ erorr: err });
-//     //   } else {
-//     //     return res.status(200).json({ result });
-//     //   }
-//     // });
-//   } catch (error) {
-//     console.log(error);
-//     res.json({ massege: "get error in getuserprofile" });
-//   }
-// });

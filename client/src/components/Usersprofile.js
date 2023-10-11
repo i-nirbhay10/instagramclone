@@ -1,38 +1,46 @@
 import React, { useEffect, useState } from "react";
 import Nevbar from "./Nevbar";
 import { useNavigate } from "react-router-dom";
-import Profiledetails from "./Profiledetails";
+// import Profiledetails from "./Profiledetails";
+import { useParams } from "react-router-dom";
 
-const Profile = () => {
+const Usersprofile = () => {
   const navigate = useNavigate();
-  const [photos, setphoto] = useState();
+  const Id = useParams();
+  // const [photos, setphoto] = useState();
   const [user, setuser] = useState();
-  const [toggelcomment, settoggelcomment] = useState(false);
-  const [posts, setPosts] = useState([]);
+  const [userdata, setuserdata] = useState();
+  // const [toggelcomment, settoggelcomment] = useState(false);
+  // const [posts, setPosts] = useState([]);
 
-  const toggel = (pics) => {
-    if (!toggelcomment) {
-      settoggelcomment(true);
-      setPosts(pics);
-    } else {
-      settoggelcomment(false);
-    }
-  };
+  // const toggel = (pics) => {
+  //   if (!toggelcomment) {
+  //     settoggelcomment(true);
+  //     setPosts(pics);
+  //   } else {
+  //     settoggelcomment(false);
+  //   }
+  // };
 
   const getdata = async () => {
     try {
-      const res = await fetch("http://localhost:5000/getuserprofile", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: localStorage.getItem("jwt"),
-        },
-      });
+      const res = await fetch(
+        `http://localhost:5000/usersprofile/${Id.postId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("jwt"),
+          },
+        }
+      );
+
       const data = await res.json();
+      console.log(data);
       if (res.status === 200) {
-        console.log(data);
-        setuser(data.userdata);
-        setphoto(data.userposts);
+        //   console.log(data);
+        setuserdata(data.userdata);
+        setuser(data.userposts);
       } else {
         // Handle the case where the request was not successful
         console.error("Failed to profile post");
@@ -45,6 +53,7 @@ const Profile = () => {
 
   useEffect(() => {
     const result = localStorage.getItem("jwt");
+
     if (!result) {
       navigate("/");
     } else {
@@ -57,8 +66,8 @@ const Profile = () => {
     <>
       <Nevbar />
 
-      {photos ? (
-        <div className="flex mx-auto mt-5 h-auto border border-slate-400 rounded-md max-w-lg">
+      {user ? (
+        <div className="flex mx-auto mt-5 h-auto border border-slate-400 rounded-md max-w-xl">
           <div className=" w-full">
             <div className="flex justify-around p-2 items-center shadow-xl">
               <div>
@@ -67,17 +76,13 @@ const Profile = () => {
                   alt="profile pic"
                   className="h-20 w-20  sm:h-36 md:w-36 rounded-full border-2 border-indigo-600"
                 />
-                {user ? (
-                  <div className="text-center md:text-xl items-center m-2">
-                    {user.name}
-                  </div>
-                ) : (
-                  ""
-                )}
+                <div className="text-center md:text-xl items-center m-2">
+                  {userdata.name}
+                </div>
               </div>
               <div className="flex items-center text-lg md:text-2xl gap-2 md:gap-8">
                 <span>
-                  <h1 className="text-center text-sm">{photos.length}</h1>
+                  <h1 className="text-center text-sm">{user.length}</h1>
                   <span>Post</span>
                 </span>
                 <span>
@@ -92,21 +97,21 @@ const Profile = () => {
             </div>
             <div className="flex justify-center w-full">
               <div className="grid grid-cols-3 p-2">
-                {photos.map((pics) => {
+                {user.map((pics) => {
                   return (
-                    <div key={pics._id}>
-                      <div>
+                    <>
+                      <div key={user._id}>
                         <img
                           src={pics.photo}
                           // src="logo192.png"
                           alt="profile pic"
                           className="p-0.5 h-36 w-36"
-                          onClick={() => {
-                            toggel(pics);
-                          }}
+                          // onClick={() => {
+                          //   toggel(pics);
+                          // }}
                         />
                       </div>
-                      {toggelcomment ? (
+                      {/* {toggelcomment ? (
                         <Profiledetails
                           items={posts}
                           toggel_details={toggel}
@@ -114,8 +119,8 @@ const Profile = () => {
                         />
                       ) : (
                         ""
-                      )}
-                    </div>
+                      )} */}
+                    </>
                   );
                 })}
               </div>
@@ -131,4 +136,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Usersprofile;

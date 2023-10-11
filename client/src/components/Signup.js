@@ -139,7 +139,7 @@ const Signup = () => {
 
             <div className="text-center">
               <button
-                className="w-full bg-sky-400 text-white p-1 my-3 rounded-md"
+                className="w-full bg-sky-400 hover:bg-sky-600 text-white p-1 my-3 rounded-md"
                 type="submit"
                 onClick={clicked}
               >
@@ -149,7 +149,10 @@ const Signup = () => {
           </div>
         </div>
         <div className="sm:border border-slate-300 my-4 p-5 text-sm text-center">
-          Have an account? <Link to="/">Log in</Link>
+          Have an account?{" "}
+          <Link to="/" className="text-blue-600">
+            Log in
+          </Link>
         </div>
       </div>
     </div>

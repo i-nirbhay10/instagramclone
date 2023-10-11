@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { FaHeart, FaRegHeart, FaRegSmile } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Comment from "./Comment";
 
 const Post = () => {
@@ -181,9 +181,13 @@ const Post = () => {
                     <img
                       src="https://images.unsplash.com/photo-1692624571955-ad757fff0fb8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1691&q=80"
                       alt="profile pic"
-                      className="h-12 w-12 rounded-full border-2 border-indigo-600"
+                      className="h-12 w-12 rounded-full border-2 border-indigo-600 cursor-pointer"
                     />
-                    <div className="ml-5">{posts.postedBy.name}</div>
+                    <div className="ml-3 cursor-pointer ">
+                      <Link to={`/userprofile/${posts._id}`}>
+                        {posts.postedBy.name}
+                      </Link>
+                    </div>
                   </div>
                   <div className="flex justify-center block overflow-hidden max-h-96 w-full">
                     <img

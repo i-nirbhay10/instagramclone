@@ -82,7 +82,7 @@ const Createpost = () => {
     <>
       <Nevbar />
 
-      <div className="flex mx-auto mt-5 border border-slate-400 rounded-md max-w-lg">
+      <div className="flex mx-auto mt-5 border border-slate-400 rounded-md max-w-md">
         <div className="overflow-hidden  w-full">
           <div className="flex p-2 items-center shadow-xl">
             <img

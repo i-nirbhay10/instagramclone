@@ -119,7 +119,10 @@ const Signin = () => {
             </div>
           </div>
           <div className="sm:border border-slate-300 my-4 p-5 text-sm text-center">
-            Don't have an account? <Link to="/Signup">Sign up</Link>
+            Don't have an account?{" "}
+            <Link to="/Signup" className="text-blue-600">
+              Sign up
+            </Link>
           </div>
         </div>
       </div>

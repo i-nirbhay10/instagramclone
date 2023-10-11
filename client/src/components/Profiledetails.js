@@ -1,10 +1,9 @@
-import { useState } from "react";
-import { FaRegTrashAlt, FaHeart, FaRegHeart, FaRegSmile } from "react-icons/fa";
+// import { useState } from "react";
+import { FaRegTrashAlt, FaHeart, FaRegHeart } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 
 const Profiledetails = (props) => {
-  const { items, toggel_details, userdetails, likefun, unlikefun, postdelete } =
-    props;
+  const { items, toggel_details, postdelete } = props;
 
   const delete_post = async (id) => {
     if (window.confirm("do you realy want to delete it")) {
@@ -39,12 +38,12 @@ const Profiledetails = (props) => {
         <div>
           <div className=" flex p-2 items-center justify-end ">
             <div
-              className="ml-5 text-xl text-slate-50 cursor-pointer"
+              className="ml-5 text-xl text-slate-50 rounded-full hover:text-red-500 cursor-pointer"
               onClick={() => {
                 toggel_details();
               }}
             >
-              <AiOutlineClose className="text-3xl" />
+              <AiOutlineClose className="text-3xl " />
             </div>
           </div>
           <div
@@ -66,13 +65,13 @@ const Profiledetails = (props) => {
                   delete_post(items._id);
                 }}
               >
-                <FaRegTrashAlt className="mr-2 text-red-600 text-2xl" />
+                <FaRegTrashAlt className="mr-2 hover:text-red-700 text-2xl" />
               </div>
             </div>
             <div className="lg:flex w-full">
               {/* Add overflow-hidden class here */}
               {/* max-h-96 */}
-              <div className=" flex p-2 items-center shadow-xl  ">
+              <div className=" flex p-2 items-center shadow-xl">
                 <div className="flex items-center justify-center block overflow-hidden max-h-56 md:max-h-96">
                   <img
                     // src="https://images.unsplash.com/photo-1692624571955-ad757fff0fb8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1691&q=80"
@@ -83,7 +82,7 @@ const Profiledetails = (props) => {
                   />
                 </div>
               </div>
-              <div className="flex flex-col  mt-2 justify-between w-full">
+              <div className="flex flex-col  mt-2 justify-between w-full lg:w-72">
                 <div>
                   <div className="flex p-1 items-center justify-between shadow-xl ">
                     <div className="">All comments</div>
@@ -91,7 +90,7 @@ const Profiledetails = (props) => {
                   <div className="p-2 max-h-56 max-w-md overflow-auto">
                     {items.comments.map((Comment_items) => {
                       return (
-                        <div>
+                        <div key={Comment_items._id}>
                           <span> {Comment_items.postedBy.name} :- </span>
                           <span>{Comment_items.comment}</span>
                         </div>
@@ -131,7 +130,7 @@ const Profiledetails = (props) => {
                       {items.postedBy.name} : {items.caption}
                     </div>
 
-                    <div className="flex items-center border border-indigo-200 p-2 gap-2">
+                    {/* <div className="flex items-center border border-indigo-200 p-2 gap-2">
                       <FaRegSmile className="text-2xl " />
                       <input
                         type="text"
@@ -150,7 +149,7 @@ const Profiledetails = (props) => {
                       >
                         Post
                       </button>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

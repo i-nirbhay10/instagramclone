@@ -107,7 +107,7 @@ const Comment = (props) => {
                     <div className="p-2 max-h-48 max-w-md overflow-auto">
                       {items.comments.map((Comment_items) => {
                         return (
-                          <div>
+                          <div key={Comment_items._id}>
                             <span> {Comment_items.postedBy.name}:- </span>
                             <span>{Comment_items.comment}</span>
                           </div>
