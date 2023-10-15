@@ -7,13 +7,16 @@ const POST = require("../Schema/post");
 router.get("/getuserprofile", loginauth, async (req, res) => {
   try {
     // console.log(req.user);
-    const { name, _id, username } = req.user;
-    const userdata = { name, _id, username };
+    const { name, _id, followers, following, username, photo } = req.user;
+    const userdata = { name, _id, followers, following, username, photo };
     // const user = await req.user;
     // console.log(user);
     const userposts = await POST.find({ postedBy: _id })
-      .populate("postedBy", "_id name")
-      .populate("comments.postedBy", "_id name username");
+      .populate("postedBy", "_id name followers following photo")
+      .populate(
+        "comments.postedBy",
+        "_id name followers following photo username"
+      );
     return res.status(200).json({ userposts, userdata });
   } catch (error) {
     console.log(error);
@@ -25,11 +28,11 @@ router.get("/getuserprofile", loginauth, async (req, res) => {
 
 router.get("/allpost", loginauth, async (req, res) => {
   try {
-    const { name, _id, username } = req.user;
-    const logeduser = { name, _id, username };
+    const { name, _id, followers, following, username, photo } = req.user;
+    const logeduser = { name, _id, followers, following, username, photo };
     const userposts = await POST.find()
-      .populate("postedBy", "_id name")
-      .populate("comments.postedBy", "_id name username");
+      .populate("postedBy", "_id name followers following photo")
+      .populate("comments.postedBy", "_id name followers following photo");
     // console.log(logeduser);
     return res.status(200).json({ userposts, logeduser });
   } catch (error) {
@@ -76,8 +79,8 @@ router.put("/userlike", loginauth, async (req, res) => {
         new: true,
       }
     )
-      .populate("postedBy", "_id name")
-      .populate("comments.postedBy", "_id name username");
+      .populate("postedBy", "_id name followers following photo")
+      .populate("comments.postedBy", "_id name followers following photo");
     if (result) {
       console.log("get user post like", result);
       return res.status(200).json({ result, logeduser });
@@ -100,8 +103,8 @@ router.put("/userunlike", loginauth, async (req, res) => {
         new: true,
       }
     )
-      .populate("postedBy", "_id name")
-      .populate("comments.postedBy", "_id name username");
+      .populate("postedBy", "_id name followers following photo")
+      .populate("comments.postedBy", "_id name followers following photo");
     if (result) {
       console.log("get user post unlike", result);
       return res.status(200).json({ result });
@@ -134,8 +137,8 @@ router.put("/comment", loginauth, async (req, res) => {
         new: true,
       }
     )
-      .populate("comments.postedBy", "_id name username")
-      .populate("postedBy", "_id name");
+      .populate("comments.postedBy", "_id name followers following photo")
+      .populate("postedBy", "_id name followers following photo");
 
     console.log(comment_result);
 
@@ -199,14 +202,17 @@ router.get("/usersprofile/:id", loginauth, async (req, res) => {
       return res.status(404).json({ message: "user not found" });
     }
 
-    const post = await POST.findById(postId).populate("postedBy", "_id name");
+    const post = await POST.findById(postId).populate(
+      "postedBy",
+      "_id name followers following photo"
+    );
 
     const userallposts = await post.postedBy._id;
     const userdata = await post.postedBy;
 
     const userposts = await POST.find({ postedBy: userallposts })
-      .populate("postedBy", "_id name")
-      .populate("comments.postedBy", "_id name username");
+      .populate("postedBy", "_id name photo")
+      .populate("comments.postedBy", "_id name followers following photo");
 
     // console.log(user);
     return res.status(200).json({ userposts, userdata });

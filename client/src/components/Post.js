@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Comment from "./Comment";
 
 const Post = () => {
+  const defaultuser = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+
   const navigate = useNavigate();
 
   // const [like, setlike] = useState();
@@ -169,102 +171,109 @@ const Post = () => {
     <>
       {postexist ? (
         <div>
-          {allposts.map((posts) => {
-            return (
-              <div
-                className="flex mx-auto mt-5 border border-slate-400  rounded-md max-w-lg"
-                key={posts._id}
-              >
-                <div className="overflow-hidden  w-full">
-                  {/* Add overflow-hidden class here */}
-                  <div className="flex p-2 items-center shadow-xl">
-                    <img
-                      src="https://images.unsplash.com/photo-1692624571955-ad757fff0fb8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1691&q=80"
-                      alt="profile pic"
-                      className="h-12 w-12 rounded-full border-2 border-indigo-600 cursor-pointer"
-                    />
-                    <div className="ml-3 cursor-pointer ">
-                      <Link to={`/userprofile/${posts._id}`}>
-                        {posts.postedBy.name}
-                      </Link>
+          {allposts
+            .slice(0)
+            .reverse()
+            .map((posts) => {
+              return (
+                <div
+                  className="flex mx-auto mt-5 border border-slate-400  rounded-md max-w-lg"
+                  key={posts._id}
+                >
+                  <div className="overflow-hidden  w-full">
+                    {/* Add overflow-hidden class here */}
+                    <Link to={`/userprofile/${posts._id}`}>
+                      <div className="flex p-2 items-center shadow-xl">
+                        <img
+                          src={
+                            !posts.postedBy.photo
+                              ? defaultuser
+                              : posts.postedBy.photo
+                          }
+                          alt="profile pic"
+                          className="h-12 w-12 rounded-full border-2 border-indigo-600 cursor-pointer"
+                        />
+                        <div className="ml-3 cursor-pointer ">
+                          {posts.postedBy.name}
+                        </div>
+                      </div>
+                    </Link>
+                    <div className="flex justify-center block overflow-hidden max-h-96 w-full">
+                      <img
+                        // src="https://images.unsplash.com/photo-1622977266039-dbb162254c12?ixlib=rb-4.0.3&ixid=M3xMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1835&q=80"
+                        src={posts.photo}
+                        alt="profile pic"
+                        className="block sm:px-4 pt-4"
+                      />
                     </div>
-                  </div>
-                  <div className="flex justify-center block overflow-hidden max-h-96 w-full">
-                    <img
-                      // src="https://images.unsplash.com/photo-1622977266039-dbb162254c12?ixlib=rb-4.0.3&ixid=M3xMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1835&q=80"
-                      src={posts.photo}
-                      alt="profile pic"
-                      className="block sm:px-4 pt-4"
-                    />
-                  </div>
-                  <div className="p-3">
-                    <div className="flex items-center text-2xl gap-4">
-                      {posts.likes.includes(logeduser._id) ? (
-                        <span>
-                          <FaHeart
-                            onClick={() => {
-                              handleunlike(posts._id);
-                            }}
-                            className="text-red-600 cursor-pointer"
-                          />
-                        </span>
-                      ) : (
-                        <span>
-                          <FaRegHeart
-                            onClick={() => {
-                              handlelike(posts._id);
-                            }}
-                            className="hover:text-red-600 cursor-pointer"
-                          />
-                        </span>
-                      )}
+                    <div className="p-3">
+                      <div className="flex items-center text-2xl gap-4">
+                        {posts.likes.includes(logeduser._id) ? (
+                          <span>
+                            <FaHeart
+                              onClick={() => {
+                                handleunlike(posts._id);
+                              }}
+                              className="text-red-600 cursor-pointer"
+                            />
+                          </span>
+                        ) : (
+                          <span>
+                            <FaRegHeart
+                              onClick={() => {
+                                handlelike(posts._id);
+                              }}
+                              className="hover:text-red-600 cursor-pointer"
+                            />
+                          </span>
+                        )}
 
-                      <span>icon 1</span>
-                    </div>
-                    <div className="p-1 font-bold">
-                      {posts.likes.length} Likes
-                    </div>
-                    <div className="px-1 ">
-                      <span className="font-bold">
-                        {posts.postedBy.name} :-{" "}
-                      </span>
-                      <span>{posts.caption}</span>
-                    </div>
-                    <div className="px-1 pb-1 cursor-pointer ">
-                      {/* view all comments ... */}
-                      <Comment
-                        items={posts}
-                        userdetails={logeduser}
-                        likefun={handlelike}
-                        unlikefun={handleunlike}
-                        comment_update={getallpost}
-                      />
-                    </div>
-                    <div className="flex items-center border border-indigo-200 p-2 gap-2">
-                      <FaRegSmile className="text-2xl " />
-                      <input
-                        type="text"
-                        placeholder="Add a comment"
-                        value={usercomment}
-                        onChange={(e) => {
-                          setusercomment(e.target.value);
-                        }}
-                        className="w-full outline-none "
-                      />
-                      <button
-                        className="text-md text-indigo-600"
-                        onClick={() => {
-                          postcomment(posts._id);
-                        }}
-                      >
-                        Post
-                      </button>
+                        <span>icon 1</span>
+                      </div>
+                      <div className="p-1 font-bold">
+                        {posts.likes.length} Likes
+                      </div>
+                      <div className="px-1 ">
+                        <span className="font-bold">
+                          {posts.postedBy.name} :-{" "}
+                        </span>
+                        <span>{posts.caption}</span>
+                      </div>
+                      <div className="px-1 pb-1 cursor-pointer ">
+                        {/* view all comments ... */}
+                        <Comment
+                          items={posts}
+                          userdetails={logeduser}
+                          likefun={handlelike}
+                          unlikefun={handleunlike}
+                          comment_update={getallpost}
+                        />
+                      </div>
+                      <div className="flex items-center border border-indigo-200 p-2 gap-2">
+                        <FaRegSmile className="text-2xl " />
+                        <input
+                          type="text"
+                          placeholder="Add a comment"
+                          value={usercomment}
+                          onChange={(e) => {
+                            setusercomment(e.target.value);
+                          }}
+                          className="w-full outline-none "
+                        />
+                        <button
+                          className="text-md text-indigo-600"
+                          onClick={() => {
+                            postcomment(posts._id);
+                          }}
+                        >
+                          Post
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       ) : (
         <div className="flex h-screen items-center text-2xl justify-center bg-[#e2e8f0]">

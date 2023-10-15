@@ -53,7 +53,9 @@ router.post("/signin", async (req, res) => {
       if (user.password === password) {
         const token = jwt.sign({ _id: user._id }, process.env.SECRET);
         console.log(token);
-        return res.status(200).json(token);
+        const { _id, photo, name, username } = user;
+        const userdata = { _id, photo, name, username };
+        return res.status(200).json({ token, userdata });
         // return res.status(200).json({ message: "Logged in sucsessfull" });
       } else {
         return res.status(422).json({ message: "Invalid email or password" });
@@ -64,6 +66,34 @@ router.post("/signin", async (req, res) => {
   } catch (error) {
     console.error("Login failed:", error);
     return res.status(500).json({ error: "Login failed" });
+  }
+});
+
+// to update profile photo
+
+router.put("/uploadprofilepic", loginauth, async (req, res) => {
+  try {
+    const { photo } = req.body;
+    // if (!photo) {
+    //   return res.status(402).json({ message: "image not set by user" });
+    // }
+
+    const user = await USER.findByIdAndUpdate(
+      { _id: req.user._id },
+      {
+        $set: { photo: photo },
+      },
+      {
+        new: true,
+      }
+    );
+
+    return res.status(200).json(user);
+
+    console.log(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "An error occurred" });
   }
 });
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Nevbar from "./Nevbar";
 import { toast } from "react-toastify";
 import { FaRegSmile } from "react-icons/fa";
@@ -9,10 +9,13 @@ const Createpost = () => {
   const navigate = useNavigate();
   const notifyS = (msg) => toast.success(msg);
 
+  const [user, setuser] = useState("");
   const [postingmsg, setPostingmsg] = useState("Post");
   const [postimg, setpostimg] = useState(null);
   const [getphoto, setgetphoto] = useState("");
   const [caption, setcaption] = useState("");
+
+  const defaultuser = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
 
   // if (postimg) {
   //   console.log(postimg);
@@ -78,6 +81,18 @@ const Createpost = () => {
     }
   };
 
+  // console.log("name", user.name);
+
+  useEffect(() => {
+    const result = localStorage.getItem("jwt");
+    if (!result) {
+      navigate("/");
+    } else {
+      setuser(JSON.parse(localStorage.getItem("userinfo")));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <Nevbar />
@@ -86,11 +101,12 @@ const Createpost = () => {
         <div className="overflow-hidden  w-full">
           <div className="flex p-2 items-center shadow-xl">
             <img
-              src="https://images.unsplash.com/photo-1692624571955-ad757fff0fb8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1691&q=80"
+              src={!user.photo ? defaultuser : user.photo}
+              // src="https://images.unsplash.com/photo-1692624571955-ad757fff0fb8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1691&q=80"
               alt="profile pic"
               className="h-12 w-12 rounded-full border-2 border-indigo-600"
             />
-            <div className="ml-5">User name</div>
+            <div className="ml-5">{user.name}</div>
           </div>
           <div className="flex justify-center block overflow-hidden max-h-96 w-full">
             <img

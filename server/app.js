@@ -9,6 +9,7 @@ dotenv.config({ path: "./.env" }); // useing dotenv
 require("./database/connection");
 app.use(require("./router/route"));
 app.use(require("./router/post"));
+app.use(require("./router/user_post"));
 
 app.use(cors());
 port = 5000;

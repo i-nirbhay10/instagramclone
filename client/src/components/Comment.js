@@ -4,6 +4,8 @@ import { AiOutlineClose } from "react-icons/ai";
 
 const Comment = (props) => {
   const { items, userdetails, likefun, unlikefun, comment_update } = props;
+  const defaultuser = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+
   const [toggelcomment, settoggelcomment] = useState(false);
   const [userComment, setUserComment] = useState("");
 
@@ -55,27 +57,14 @@ const Comment = (props) => {
       ) : (
         <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-black bg-opacity-50">
           <div>
-            {/* {userdata.map((posts) => { */}
-            {/* return ( */}
-            {/* <div className="md:hidden flex p-2 bg-white items-center border rounded-md shadow-xl">
-              <img
-                src="https://images.unsplash.com/photo-1692624571955-ad757fff0fb8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1691&q=80"
-                alt="profile pic"
-                className="h-12 w-12 rounded-full border-2 border-indigo-600"
-              />
-              <div className="ml-5 text-xl">user name</div>
-            </div> */}
             <div
-              className="border border-slate-400 m-4 p-4 bg-white rounded-lg max-w-md md:max-w-5xl "
+              className="border border-slate-400 m-4 p-4 bg-white rounded-lg max-w-md md:max-w-4xl "
               // key={posts._id}
             >
               <div className="lg:flex w-full">
-                {/* Add overflow-hidden class here */}
-                {/* max-h-96 */}
                 <div className=" flex p-2 items-center shadow-xl  ">
-                  <div className="flex items-center justify-center block overflow-hidden max-h-56 md:max-h-96">
+                  <div className="flex items-center justify-center block overflow-hidden max-h-56 md:max-h-96  md:max-w-md">
                     <img
-                      // src="https://images.unsplash.com/photo-1692624571955-ad757fff0fb8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1691&q=80"
                       // src="https://images.unsplash.com/photo-1622977266039-dbb162254c12?ixlib=rb-4.0.3&ixid=M3xMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1835&q=80"
                       src={items.photo}
                       alt="profile pic"
@@ -88,7 +77,11 @@ const Comment = (props) => {
                     <div className="flex p-1 items-center justify-between border shadow-xl ">
                       <div className="flex items-center">
                         <img
-                          src="https://images.unsplash.com/photo-1692624571955-ad757fff0fb8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1691&q=80"
+                          src={
+                            !items.postedBy.photo
+                              ? defaultuser
+                              : items.postedBy.photo
+                          }
                           alt="profile pic"
                           className="h-12 w-12 rounded-full border-2 border-indigo-600"
                         />
@@ -108,7 +101,10 @@ const Comment = (props) => {
                       {items.comments.map((Comment_items) => {
                         return (
                           <div key={Comment_items._id}>
-                            <span> {Comment_items.postedBy.name}:- </span>
+                            <span className="font-bold">
+                              {" "}
+                              {Comment_items.postedBy.name} :-{" "}
+                            </span>
                             <span>{Comment_items.comment}</span>
                           </div>
                         );
@@ -142,8 +138,10 @@ const Comment = (props) => {
                         {items.likes.length} Likes
                       </div>
                       <div className="">
-                        {/* {items..postedBy.name} {posts.caption} */}
-                        {items.postedBy.name} : {items.caption}
+                        <span className="font-bold">
+                          {items.postedBy.name} :-{" "}
+                        </span>
+                        {items.caption}
                       </div>
 
                       <div className="flex items-center border border-indigo-200 p-2 gap-2">

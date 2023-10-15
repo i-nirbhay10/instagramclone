@@ -2,13 +2,17 @@ import React, { useEffect, useState } from "react";
 import Nevbar from "./Nevbar";
 import { useNavigate } from "react-router-dom";
 import Profiledetails from "./Profiledetails";
+import Profilepic from "./Profilepic";
 
 const Profile = () => {
   const navigate = useNavigate();
+  const defaultuser = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+
   const [photos, setphoto] = useState();
   const [user, setuser] = useState();
   const [toggelcomment, settoggelcomment] = useState(false);
   const [posts, setPosts] = useState([]);
+  const [changepic, setchangepic] = useState(false);
 
   const toggel = (pics) => {
     if (!toggelcomment) {
@@ -16,6 +20,14 @@ const Profile = () => {
       setPosts(pics);
     } else {
       settoggelcomment(false);
+    }
+  };
+
+  const change_profilepic = () => {
+    if (!changepic) {
+      setchangepic(true);
+    } else {
+      setchangepic(false);
     }
   };
 
@@ -63,17 +75,24 @@ const Profile = () => {
             <div className="flex justify-around p-2 items-center shadow-xl">
               <div>
                 <img
-                  src="https://images.unsplash.com/photo-1692624571955-ad757fff0fb8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1691&q=80"
+                  src={!user.photo ? defaultuser : user.photo}
+                  // src="https://images.unsplash.com/photo-1692624571955-ad757fff0fb8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1691&q=80"
                   alt="profile pic"
-                  className="h-20 w-20  sm:h-36 md:w-36 rounded-full border-2 border-indigo-600"
+                  className="h-20 w-20  sm:h-36 md:w-36 rounded-full border-2 border-indigo-600 cursor-pointer"
+                  onClick={change_profilepic}
                 />
-                {user ? (
-                  <div className="text-center md:text-xl items-center m-2">
-                    {user.name}
-                  </div>
-                ) : (
+                {!changepic ? (
                   ""
+                ) : (
+                  <Profilepic
+                    change_profilepic={change_profilepic}
+                    getdata={getdata}
+                  />
                 )}
+
+                <div className="text-center md:text-xl items-center m-2">
+                  {user.name}
+                </div>
               </div>
               <div className="flex items-center text-lg md:text-2xl gap-2 md:gap-8">
                 <span>
@@ -81,43 +100,50 @@ const Profile = () => {
                   <span>Post</span>
                 </span>
                 <span>
-                  <h1 className="text-center text-sm">40</h1>
+                  <h1 className="text-center text-sm">
+                    {" "}
+                    {user.followers.length}
+                  </h1>
                   <span>Folowers</span>
                 </span>
                 <span>
-                  <h1 className="text-center text-sm">40</h1>
+                  <h1 className="text-center text-sm">
+                    {user.following.length}
+                  </h1>
                   <span>Following</span>
                 </span>
               </div>
             </div>
             <div className="flex justify-center w-full">
               <div className="grid grid-cols-3 p-2">
-                {photos.map((pics) => {
-                  return (
-                    <div key={pics._id}>
-                      <div>
-                        <img
-                          src={pics.photo}
-                          // src="logo192.png"
-                          alt="profile pic"
-                          className="p-0.5 h-36 w-36"
-                          onClick={() => {
-                            toggel(pics);
-                          }}
-                        />
+                {photos
+                  .slice(0)
+                  .reverse()
+                  .map((pics) => {
+                    return (
+                      <div key={pics._id}>
+                        {!toggelcomment ? (
+                          <div>
+                            <img
+                              src={pics.photo}
+                              // src="logo192.png"
+                              alt="profile pic"
+                              className="p-0.5 h-36 w-36 cursor-pointer"
+                              onClick={() => {
+                                toggel(pics);
+                              }}
+                            />
+                          </div>
+                        ) : (
+                          <Profiledetails
+                            items={posts}
+                            toggel_details={toggel}
+                            postdelete={getdata}
+                          />
+                        )}
                       </div>
-                      {toggelcomment ? (
-                        <Profiledetails
-                          items={posts}
-                          toggel_details={toggel}
-                          postdelete={getdata}
-                        />
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  );
-                })}
+                    );
+                  })}
               </div>
             </div>
           </div>

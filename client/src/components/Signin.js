@@ -40,14 +40,15 @@ const Signin = () => {
     const data = await res.json();
 
     console.log(data);
-    if (res.status === 422) {
+    if (res.ok) {
+      localStorage.setItem("jwt", data.token);
+      localStorage.setItem("userinfo", JSON.stringify(data.userdata));
+      notifyS("Logged in sucsessfull");
+      console.log("Logged in sucsessfull");
+      navigate("/Home");
+    } else {
       notifyE(data.message);
       console.log("invelid cradintial ");
-    } else {
-      localStorage.setItem("jwt", data);
-      notifyS("Logged in sucsessfull");
-      console.log("registration successfull");
-      navigate("/Home");
     }
   };
 
