@@ -133,7 +133,7 @@ const Usersprofile = () => {
       <Nevbar />
 
       {user ? (
-        <div className="flex mx-auto mt-5 h-auto border border-slate-400 rounded-md max-w-xl">
+        <div className="flex mx-auto md:mt-28 h-auto border border-slate-400 rounded-md max-w-xl">
           <div className=" w-full">
             <div className="flex justify-around p-2 items-center shadow-xl">
               <div>
@@ -171,7 +171,7 @@ const Usersprofile = () => {
                     {console.log(followed)}
                     {followed ? (
                       <button
-                        className="px-4 p-y-4 hover:bg-sky-300  bg-sky-400 rounded text-xl  "
+                        className="px-4 py-1 hover:bg-sky-300 bg-sky-400 rounded text-white text-xl  "
                         onClick={() => {
                           unfollow(userdata._id);
                         }}
@@ -180,7 +180,7 @@ const Usersprofile = () => {
                       </button>
                     ) : (
                       <button
-                        className="px-4 p-y-4 hover:bg-sky-300  bg-sky-400 rounded text-xl  "
+                        className="px-4 py-1 hover:bg-sky-300 bg-sky-400 rounded text-white text-xl  "
                         onClick={() => {
                           follow(userdata._id);
                         }}

@@ -10,6 +10,7 @@ const Post = () => {
   const navigate = useNavigate();
 
   // const [like, setlike] = useState();
+  const [postingmsg, setPostingmsg] = useState("Post");
   const [allposts, setallposts] = useState();
   const [postexist, setpostexist] = useState(false);
   const [logeduser, setlogeduser] = useState();
@@ -125,6 +126,7 @@ const Post = () => {
   const postcomment = async (id) => {
     // console.log(usercomment, id);
     try {
+      setPostingmsg("Posting...");
       const res = await fetch("http://localhost:5000/comment", {
         method: "PUT",
         headers: {
@@ -151,9 +153,11 @@ const Post = () => {
       });
       console.log(newData);
       setallposts(newData);
+      setPostingmsg("Post");
     } catch (error) {
       // Handle network errors
       console.error("Network error:", error);
+      setPostingmsg("Post");
     }
   };
 
@@ -170,7 +174,7 @@ const Post = () => {
   return (
     <>
       {postexist ? (
-        <div>
+        <div className="md:mt-28 mb-20 md:mb-0">
           {allposts
             .slice(0)
             .reverse()
@@ -228,7 +232,7 @@ const Post = () => {
                           </span>
                         )}
 
-                        <span>icon 1</span>
+                        {/* <span>icon 1</span> */}
                       </div>
                       <div className="p-1 font-bold">
                         {posts.likes.length} Likes
@@ -266,7 +270,7 @@ const Post = () => {
                             postcomment(posts._id);
                           }}
                         >
-                          Post
+                          {postingmsg}
                         </button>
                       </div>
                     </div>

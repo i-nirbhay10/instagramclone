@@ -11,6 +11,7 @@ const Logout = () => {
     } else {
       if (window.confirm("Do you really want to leave?")) {
         localStorage.clear("jwt");
+        localStorage.clear("userinfo");
         navigate("/");
       } else {
         navigate(-1);

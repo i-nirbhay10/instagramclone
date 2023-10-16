@@ -16,10 +16,8 @@ const Home = () => {
 
   return (
     <>
-      <div>
-        <Nevbar />
-        <Post />
-      </div>
+      <Nevbar />
+      <Post />
     </>
   );
 };

@@ -8,6 +8,7 @@ const Comment = (props) => {
 
   const [toggelcomment, settoggelcomment] = useState(false);
   const [userComment, setUserComment] = useState("");
+  const [postingmsg, setPostingmsg] = useState("Post");
 
   const toggel = () => {
     if (!toggelcomment) {
@@ -19,6 +20,7 @@ const Comment = (props) => {
 
   const postComment = async () => {
     try {
+      setPostingmsg("Posting...");
       const res = await fetch("http://localhost:5000/comment", {
         method: "PUT",
         headers: {
@@ -37,9 +39,11 @@ const Comment = (props) => {
       if (data) {
         comment_update(data);
         setUserComment("");
+        setPostingmsg("Post");
       }
     } catch (error) {
       console.error("Network error:", error);
+      setPostingmsg("Post");
     }
   };
 
@@ -159,7 +163,7 @@ const Comment = (props) => {
                             postComment();
                           }}
                         >
-                          Post
+                          {postingmsg}
                         </button>
                       </div>
                     </div>

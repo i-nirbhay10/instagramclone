@@ -70,7 +70,7 @@ const Profile = () => {
       <Nevbar />
 
       {photos ? (
-        <div className="flex mx-auto mt-5 h-auto border border-slate-400 rounded-md max-w-lg">
+        <div className="flex mx-auto md:mt-28 h-auto border border-slate-400 rounded-md max-w-lg">
           <div className=" w-full">
             <div className="flex justify-around p-2 items-center shadow-xl">
               <div>
@@ -78,7 +78,7 @@ const Profile = () => {
                   src={!user.photo ? defaultuser : user.photo}
                   // src="https://images.unsplash.com/photo-1692624571955-ad757fff0fb8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1691&q=80"
                   alt="profile pic"
-                  className="h-20 w-20  sm:h-36 md:w-36 rounded-full border-2 border-indigo-600 cursor-pointer"
+                  className="h-20 w-20  sm:h-36 sm:w-36 rounded-full border-2 border-indigo-600 cursor-pointer"
                   onClick={change_profilepic}
                 />
                 {!changepic ? (
