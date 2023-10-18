@@ -76,6 +76,7 @@ const Signup = () => {
               <button className="w-full bg-sky-500 text-white mx-auto p-1 rounded">
                 Log in with Google
               </button>
+              <p>comming soon</p>
             </div>
             <div className="text-center py-3">OR</div>
             <div className="flex flex-col text-center">

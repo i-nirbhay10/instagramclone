@@ -3,7 +3,7 @@ import Nevbar from "./Nevbar";
 import { toast } from "react-toastify";
 import { FaRegSmile } from "react-icons/fa";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Createpost = () => {
   const navigate = useNavigate();
@@ -98,17 +98,20 @@ const Createpost = () => {
       <Nevbar />
 
       <div className="flex mx-auto md:mt-28 border border-slate-400 rounded-md max-w-md">
-        <div className="overflow-hidden  w-full">
-          <div className="flex p-2 items-center shadow-xl">
-            <img
-              src={!user.photo ? defaultuser : user.photo}
-              // src="https://images.unsplash.com/photo-1692624571955-ad757fff0fb8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1691&q=80"
-              alt="profile pic"
-              className="h-12 w-12 rounded-full border-2 border-indigo-600"
-            />
-            <div className="ml-5">{user.name}</div>
-          </div>
-          <div className="flex justify-center block overflow-hidden max-h-96 w-full">
+        <div className="overflow-hidden w-full">
+          <Link to="/profile">
+            <div className="flex p-2 items-center shadow-xl">
+              <img
+                src={!user.photo ? defaultuser : user.photo}
+                // src="https://images.unsplash.com/photo-1692624571955-ad757fff0fb8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1691&q=80"
+                alt="profile pic"
+                className="h-12 w-12 rounded-full border-2 border-indigo-600"
+              />
+              <div className="ml-5">{user.name}</div>
+            </div>
+          </Link>
+
+          <div className="flex items-center justify-center block overflow-hidden p-1 h-96 w-full">
             <img
               src={
                 !getphoto
@@ -121,13 +124,21 @@ const Createpost = () => {
               className="block sm:px-4 pt-4"
             />
           </div>
-          <div className="p-4">
+          <div className="p-1">
             <div className="flex items-center pb-2">
+              <label
+                htmlFor="getimg"
+                className="px-4 py-2 bg-blue-500 text-white rounded-md cursor-pointer hover:bg-blue-600"
+              >
+                Choose File
+              </label>
               <input
                 type="file"
+                id="getimg"
                 name="getimg"
                 onChange={handleImageChange}
                 accept="image/*"
+                className="hidden"
               />
             </div>
 
@@ -138,7 +149,7 @@ const Createpost = () => {
                 value={caption}
                 onChange={(e) => setcaption(e.target.value)}
                 placeholder="Add a comment"
-                className="w-full outline-none "
+                className="w-full outline-none  "
               />
               <button className="text-md text-indigo-600" onClick={clicked}>
                 {postingmsg}

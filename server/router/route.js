@@ -5,8 +5,8 @@ const USER = require("../Schema/model");
 const loginauth = require("../middleware/loginauth");
 
 // Home router
-router.get("/", (req, res) => {
-  res.send("welcome to home get route");
+router.get("/connect", (req, res) => {
+  res.json("welcome");
 });
 
 // NEW USER RESISTER

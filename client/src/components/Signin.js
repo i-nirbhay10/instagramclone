@@ -9,6 +9,21 @@ const Signin = () => {
   const notifyE = (msg) => toast.error(msg);
   const notifyS = (msg) => toast.success(msg);
 
+  const connect = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/connect", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const [user, setuser] = useState({
     email: "",
     password: "",
@@ -56,6 +71,8 @@ const Signin = () => {
     const result = localStorage.getItem("jwt");
     if (result) {
       navigate("/Home");
+    } else {
+      connect();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -113,6 +130,7 @@ const Signin = () => {
               <div className="text-center py-2">OR</div>
               <div className="p-2 text-slate-600 text- text-center">
                 <Link to="/">Log in with Google</Link>
+                <p>comming soon</p>
               </div>
               <div className="p-2 text-slate-600 text-xs text-center">
                 <Link to="/">Forgotten your password ?</Link>

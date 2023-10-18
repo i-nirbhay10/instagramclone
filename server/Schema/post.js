@@ -8,7 +8,6 @@ const postSchema = new mongoose.Schema({
   },
   caption: {
     type: "string",
-    require: true,
   },
   postedBy: {
     type: ObjectId,

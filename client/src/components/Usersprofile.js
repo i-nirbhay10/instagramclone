@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Nevbar from "./Nevbar";
+import UserProfileDetails from "./UserProfileDetails";
+import ViewProfileImg from "./ViewProfileImg";
 import { useNavigate } from "react-router-dom";
-// import Profiledetails from "./Profiledetails";
 import { useParams } from "react-router-dom";
 
 const Usersprofile = () => {
@@ -13,18 +14,26 @@ const Usersprofile = () => {
   const [user, setuser] = useState();
   const [userdata, setuserdata] = useState();
   const [followed, setfollowed] = useState(false);
+  const [toggelcomment, settoggelcomment] = useState(false);
+  const [toggelprofile, settoggelProfile] = useState(false);
+  const [posts, setPosts] = useState([]);
 
-  // const [toggelcomment, settoggelcomment] = useState(false);
-  // const [posts, setPosts] = useState([]);
+  const toggelProfilePic = () => {
+    if (!toggelprofile) {
+      settoggelProfile(true);
+    } else {
+      settoggelProfile(false);
+    }
+  };
 
-  // const toggel = (pics) => {
-  //   if (!toggelcomment) {
-  //     settoggelcomment(true);
-  //     setPosts(pics);
-  //   } else {
-  //     settoggelcomment(false);
-  //   }
-  // };
+  const toggel = (pics) => {
+    if (!toggelcomment) {
+      settoggelcomment(true);
+      setPosts(pics);
+    } else {
+      settoggelcomment(false);
+    }
+  };
 
   const getdata = async () => {
     try {
@@ -142,10 +151,19 @@ const Usersprofile = () => {
                   // src="https://images.unsplash.com/photo-1692624571955-ad757fff0fb8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1691&q=80"
                   alt="profile pic"
                   className="h-20 w-20  sm:h-36 md:w-36 rounded-full border-2 border-indigo-600"
+                  onClick={toggelProfilePic}
                 />
                 <div className="text-center md:text-xl items-center m-2">
                   {userdata.name}
                 </div>
+                {toggelprofile ? (
+                  <ViewProfileImg
+                    photo={userdata}
+                    toggelProfilePic={toggelProfilePic}
+                  />
+                ) : (
+                  ""
+                )}
               </div>
               <div>
                 <div className="flex items-center text-lg font-bold gap-2 md:gap-8">
@@ -176,7 +194,7 @@ const Usersprofile = () => {
                           unfollow(userdata._id);
                         }}
                       >
-                        unfollow
+                        Unfollow
                       </button>
                     ) : (
                       <button
@@ -185,7 +203,7 @@ const Usersprofile = () => {
                           follow(userdata._id);
                         }}
                       >
-                        follow
+                        Follow
                       </button>
                     )}
                   </div>
@@ -204,21 +222,20 @@ const Usersprofile = () => {
                           src={pics.photo}
                           // src="logo192.png"
                           alt="profile pic"
-                          className="p-0.5 h-36 w-36"
-                          // onClick={() => {
-                          //   toggel(pics);
-                          // }}
+                          className="p-0.5 h-36 w-36 cursor-pointer"
+                          onClick={() => {
+                            toggel(pics);
+                          }}
                         />
 
-                        {/* {toggelcomment ? (
-                        <Profiledetails
-                          items={posts}
-                          toggel_details={toggel}
-                          postdelete={getdata}
-                        />
-                      ) : (
-                        ""
-                      )} */}
+                        {toggelcomment ? (
+                          <UserProfileDetails
+                            items={posts}
+                            toggel_details={toggel}
+                          />
+                        ) : (
+                          ""
+                        )}
                       </div>
                     );
                   })}

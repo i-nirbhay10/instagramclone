@@ -47,7 +47,7 @@ router.post("/createpost", loginauth, async (req, res) => {
   try {
     const { photo, caption } = req.body;
     console.log("hit");
-    if (!photo || !caption) {
+    if (!photo) {
       return res.status(422).json({ massege: "plese enter data in all feald" });
     }
     // console.log(result);

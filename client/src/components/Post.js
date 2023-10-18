@@ -202,14 +202,17 @@ const Post = () => {
                         </div>
                       </div>
                     </Link>
-                    <div className="flex justify-center block overflow-hidden max-h-96 w-full">
-                      <img
-                        // src="https://images.unsplash.com/photo-1622977266039-dbb162254c12?ixlib=rb-4.0.3&ixid=M3xMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1835&q=80"
-                        src={posts.photo}
-                        alt="profile pic"
-                        className="block sm:px-4 pt-4"
-                      />
+                    <div className="flex items-center justify-center overflow-hidden bg-black h-96">
+                      <div className="p-4 max-h-96 w-full">
+                        <img
+                          // src="https://images.unsplash.com/photo-1622977266039-dbb162254c12?ixlib=rb-4.0.3&ixid=M3xMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1835&q=80"
+                          src={posts.photo}
+                          alt="profile pic"
+                          className=""
+                        />
+                      </div>
                     </div>
+
                     <div className="p-3">
                       <div className="flex items-center text-2xl gap-4">
                         {posts.likes.includes(logeduser._id) ? (
@@ -237,12 +240,17 @@ const Post = () => {
                       <div className="p-1 font-bold">
                         {posts.likes.length} Likes
                       </div>
-                      <div className="px-1 ">
-                        <span className="font-bold">
-                          {posts.postedBy.name} :-{" "}
-                        </span>
-                        <span>{posts.caption}</span>
-                      </div>
+                      {posts.caption ? (
+                        <div className="px-1 ">
+                          <span className="font-bold">
+                            {posts.postedBy.name} :-{" "}
+                          </span>
+                          <span>{posts.caption}</span>
+                        </div>
+                      ) : (
+                        ""
+                      )}
+
                       <div className="px-1 pb-1 cursor-pointer ">
                         {/* view all comments ... */}
                         <Comment
@@ -280,7 +288,7 @@ const Post = () => {
             })}
         </div>
       ) : (
-        <div className="flex h-screen items-center text-2xl justify-center bg-[#e2e8f0]">
+        <div className="flex h-screen items-center  justify-center bg-[#e2e8f0]">
           loading.....
         </div>
       )}

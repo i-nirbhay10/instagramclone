@@ -2,44 +2,44 @@
 import { FaRegTrashAlt, FaHeart, FaRegHeart } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 
-const Profiledetails = (props) => {
-  const { items, toggel_details, postdelete } = props;
+const UserProfileDetails = (props) => {
+  const { items, toggel_details } = props;
 
   const defaultuser = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
-  const delete_post = async (id) => {
-    if (window.confirm("do you realy want to delete it")) {
-      try {
-        const res = await fetch("http://localhost:5000/deletepost", {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: localStorage.getItem("jwt"),
-          },
-          body: JSON.stringify({
-            postId: id,
-          }),
-        });
+  //   const delete_post = async (id) => {
+  //     if (window.confirm("do you realy want to delete it")) {
+  //       try {
+  //         const res = await fetch("http://localhost:5000/deletepost", {
+  //           method: "DELETE",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //             Authorization: localStorage.getItem("jwt"),
+  //           },
+  //           body: JSON.stringify({
+  //             postId: id,
+  //           }),
+  //         });
 
-        const data = await res.json();
-        console.log(data);
+  //         const data = await res.json();
+  //         console.log(data);
 
-        if (data) {
-          postdelete();
-          toggel_details();
-        }
-      } catch (error) {
-        console.error("Network error:", error);
-      }
-    }
-  };
+  //         if (data) {
+  //           postdelete();
+  //           toggel_details();
+  //         }
+  //       } catch (error) {
+  //         console.error("Network error:", error);
+  //       }
+  //     }
+  //   };
 
   return (
     <>
       <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-black bg-opacity-50">
         <div>
-          <div className=" flex p-2 items-center justify-end  ">
+          <div className=" flex p-2 items-center justify-end">
             <div
-              className="ml-5 text-xl text-slate-50 rounded-full hover:text-red-500 cursor-pointer"
+              className="ml-5 text-xl text-slate-50 rounded-full hover:text-sky-400 cursor-pointer"
               onClick={() => {
                 toggel_details();
               }}
@@ -63,14 +63,6 @@ const Profiledetails = (props) => {
                 />
                 <div className="ml-3 text-xl">{items.postedBy.name}</div>
               </div>
-              <div
-                className="cursor-pointer"
-                onClick={() => {
-                  delete_post(items._id);
-                }}
-              >
-                <FaRegTrashAlt className="mr-2 hover:text-red-700 text-2xl" />
-              </div>
             </div>
             <div className="lg:flex w-full">
               {/* Add overflow-hidden class here */}
@@ -86,29 +78,31 @@ const Profiledetails = (props) => {
                   />
                 </div>
               </div>
-              <div className="flex flex-col mt-2 justify-between w-full  lg:w-72">
+              <div className="flex flex-col  mt-2 justify-between w-full lg:w-72">
                 <div>
                   <div className="p-2 text-xl border-b-2 border-slate-300">
                     All comments
                   </div>
                   <div className="px-2 max-h-48 max-w-md overflow-auto">
-                    {items.comments.length ? (
-                      <span>
-                        {items.comments.map((Comment_items) => {
-                          return (
-                            <div key={Comment_items._id}>
-                              <span className="text-md">
-                                {" "}
-                                {Comment_items.postedBy.name} :-{" "}
-                              </span>
-                              <span>{Comment_items.comment}</span>
-                            </div>
-                          );
-                        })}
-                      </span>
-                    ) : (
-                      <div>No commet yet</div>
-                    )}
+                    <div className="">
+                      {items.comments.length ? (
+                        <span>
+                          {items.comments.map((Comment_items) => {
+                            return (
+                              <div key={Comment_items._id}>
+                                <span className="text-md">
+                                  {" "}
+                                  {Comment_items.postedBy.name} :-{" "}
+                                </span>
+                                <span>{Comment_items.comment}</span>
+                              </div>
+                            );
+                          })}
+                        </span>
+                      ) : (
+                        <div>No commet yet</div>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <div className="p-2">
@@ -140,7 +134,7 @@ const Profiledetails = (props) => {
                       Likes
                     </div>
                     {items.caption ? (
-                      <div className="">
+                      <div>
                         {items.postedBy.name} : {items.caption}
                       </div>
                     ) : (
@@ -178,4 +172,4 @@ const Profiledetails = (props) => {
   );
 };
 
-export default Profiledetails;
+export default UserProfileDetails;

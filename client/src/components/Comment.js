@@ -55,16 +55,36 @@ const Comment = (props) => {
             toggel();
           }}
         >
-          view all {items.comments.length === 0 ? " " : items.comments.length}{" "}
-          comments
+          {items.comments.length === 0
+            ? "0 comments"
+            : `view all ${items.comments.length} comments`}
         </div>
       ) : (
         <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-black bg-opacity-50">
           <div>
-            <div
-              className="border border-slate-400 m-4 p-4 bg-white rounded-lg max-w-md md:max-w-4xl "
-              // key={posts._id}
-            >
+            <div className=" flex p-2 items-center justify-end  ">
+              <div
+                className="ml-5 text-xl text-slate-50 rounded-full hover:text-red-500 cursor-pointer "
+                onClick={() => {
+                  toggel();
+                }}
+              >
+                <AiOutlineClose className="text-3xl " />
+              </div>
+            </div>
+            <div className="border border-slate-400 m-4 p-4 bg-white rounded-lg max-w-md md:max-w-4xl ">
+              <div className="flex p-1 items-center justify-between border shadow-xl ">
+                <div className="flex items-center">
+                  <img
+                    src={
+                      !items.postedBy.photo ? defaultuser : items.postedBy.photo
+                    }
+                    alt="profile pic"
+                    className="h-12 w-12 rounded-full border-2 border-indigo-600"
+                  />
+                  <div className="ml-5 text-xl">{items.postedBy.name}</div>
+                </div>
+              </div>
               <div className="lg:flex w-full">
                 <div className=" flex p-2 items-center shadow-xl  ">
                   <div className="flex items-center justify-center block overflow-hidden max-h-56 md:max-h-96  md:max-w-md">
@@ -78,41 +98,27 @@ const Comment = (props) => {
                 </div>
                 <div className="flex flex-col justify-between w-full">
                   <div>
-                    <div className="flex p-1 items-center justify-between border shadow-xl ">
-                      <div className="flex items-center">
-                        <img
-                          src={
-                            !items.postedBy.photo
-                              ? defaultuser
-                              : items.postedBy.photo
-                          }
-                          alt="profile pic"
-                          className="h-12 w-12 rounded-full border-2 border-indigo-600"
-                        />
-                        <div className="ml-5 text-xl">
-                          {items.postedBy.name}
-                        </div>
-                      </div>
-                      <div
-                        onClick={() => {
-                          toggel();
-                        }}
-                      >
-                        <AiOutlineClose className="mr-2 text-2xl" />
-                      </div>
+                    <div className="p-2 text-xl border-b-2 border-slate-300">
+                      All comments
                     </div>
-                    <div className="p-2 max-h-48 max-w-md overflow-auto">
-                      {items.comments.map((Comment_items) => {
-                        return (
-                          <div key={Comment_items._id}>
-                            <span className="font-bold">
-                              {" "}
-                              {Comment_items.postedBy.name} :-{" "}
-                            </span>
-                            <span>{Comment_items.comment}</span>
-                          </div>
-                        );
-                      })}
+                    <div className="px-2 max-h-48 max-w-md overflow-auto">
+                      {items.comments.length ? (
+                        <span>
+                          {items.comments.map((Comment_items) => {
+                            return (
+                              <div key={Comment_items._id}>
+                                <span className="text-md">
+                                  {" "}
+                                  {Comment_items.postedBy.name} :-{" "}
+                                </span>
+                                <span>{Comment_items.comment}</span>
+                              </div>
+                            );
+                          })}
+                        </span>
+                      ) : (
+                        <div>No commet yet</div>
+                      )}
                     </div>
                   </div>
                   <div className="p-2">
@@ -141,12 +147,17 @@ const Comment = (props) => {
                       <div className="font-bold ">
                         {items.likes.length} Likes
                       </div>
-                      <div className="">
-                        <span className="font-bold">
-                          {items.postedBy.name} :-{" "}
-                        </span>
-                        {items.caption}
-                      </div>
+
+                      {items.caption ? (
+                        <div className="">
+                          <span className="font-bold">
+                            {items.postedBy.name} :-{" "}
+                          </span>
+                          {items.caption}
+                        </div>
+                      ) : (
+                        ""
+                      )}
 
                       <div className="flex items-center border border-indigo-200 p-2 gap-2">
                         <FaRegSmile className="text-2xl " />
