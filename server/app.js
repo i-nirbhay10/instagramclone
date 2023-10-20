@@ -12,7 +12,7 @@ app.use(require("./router/post"));
 app.use(require("./router/user_post"));
 
 app.use(cors());
-port = 5000;
+port = process.env.PORT || 5000;
 
 app.listen(port, () => {
   console.log("app is runing on port no:" + port);
