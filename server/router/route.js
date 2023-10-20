@@ -69,8 +69,41 @@ router.post("/signin", async (req, res) => {
   }
 });
 
-// to update profile photo
+// TO google resister signin
+router.post("/googlelogin", async (req, res) => {
+  const { email, name, username, clientid } = req.body;
+  if (email) {
+    try {
+      const user = await USER.findOne({ email: email });
+      if (user) {
+        const token = jwt.sign({ _id: user._id }, process.env.SECRET);
+        console.log(token);
+        const { _id, photo, name, username } = user;
+        const userdata = { _id, photo, name, username };
+        return res.status(200).json({ token, userdata });
+      } else {
+        const password = email + clientid;
+        const newUser = new USER({ email, name, username, password });
+        await newUser.save();
+        const user = await USER.findOne({ email: email });
+        console.log(user);
+        if (user) {
+          const token = jwt.sign({ _id: user._id }, process.env.SECRET);
+          console.log(token);
+          const { _id, photo, name, username } = user;
+          const userdata = { _id, photo, name, username };
+          return res.status(200).json({ token, userdata });
+        }
+        // return res.status(200).json({ message: "Registration successful" });
+      }
+    } catch (error) {
+      console.error("Google login failed:", error);
+      res.status(500).json({ error: "Google login failed" });
+    }
+  }
+});
 
+// to update profile photo
 router.put("/uploadprofilepic", loginauth, async (req, res) => {
   try {
     const { photo } = req.body;

@@ -5,12 +5,10 @@ const Profilepic = (props) => {
   const { change_profilepic, getdata } = props;
   const hiddenfile = useRef(null);
   const notifyS = (msg) => toast.success(msg);
-
   const [upload, setsetupload] = useState("Upload Photo");
   const [remove, setremove] = useState("Remove photo");
-  const [user, setuser] = useState("");
+  // const [user, setuser] = useState("");
   const [image, setimg] = useState(null);
-  const [url, seturl] = useState("");
   const handleclick = () => {
     hiddenfile.current.click();
   };
@@ -62,7 +60,7 @@ const Profilepic = (props) => {
           if (res.status === 200) {
             const data = await res.json();
             console.log(data);
-            setuser(data);
+            // setuser(data);
             getdata();
             change_profilepic();
             notifyS("Profile photo uploded");
@@ -94,7 +92,7 @@ const Profilepic = (props) => {
       if (res.status === 200) {
         const data = await res.json();
         console.log(data);
-        setuser(data);
+        // setuser(data);
         getdata();
         change_profilepic();
         notifyS("Profile photo removed");
@@ -111,6 +109,7 @@ const Profilepic = (props) => {
     if (image) {
       clicked();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [image]);
 
   return (

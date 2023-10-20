@@ -91,7 +91,7 @@ const Profiledetails = (props) => {
                   <div className="p-2 text-xl border-b-2 border-slate-300">
                     All comments
                   </div>
-                  <div className="px-2 max-h-48 max-w-md overflow-auto">
+                  <div className="px-2 max-h-32 max-w-md overflow-auto">
                     {items.comments.length ? (
                       <span>
                         {items.comments.map((Comment_items) => {

@@ -1,5 +1,5 @@
 // import { useState } from "react";
-import { FaRegTrashAlt, FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 
 const UserProfileDetails = (props) => {
@@ -83,7 +83,7 @@ const UserProfileDetails = (props) => {
                   <div className="p-2 text-xl border-b-2 border-slate-300">
                     All comments
                   </div>
-                  <div className="px-2 max-h-48 max-w-md overflow-auto">
+                  <div className="px-2 max-h-32 max-w-md overflow-auto">
                     <div className="">
                       {items.comments.length ? (
                         <span>

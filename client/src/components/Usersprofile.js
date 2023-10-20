@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Nevbar from "./Nevbar";
 import UserProfileDetails from "./UserProfileDetails";
 import ViewProfileImg from "./ViewProfileImg";
+import FadeLoader from "react-spinners/FadeLoader";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
@@ -142,8 +143,8 @@ const Usersprofile = () => {
       <Nevbar />
 
       {user ? (
-        <div className="flex mx-auto md:mt-28 h-auto border border-slate-400 rounded-md max-w-xl">
-          <div className=" w-full">
+        <div className="flex mx-auto md:mt-28 h-auto border border-slate-400 sm:rounded-md max-w-md">
+          <div className="mt-5 w-full">
             <div className="flex justify-around p-2 items-center shadow-xl">
               <div>
                 <img
@@ -166,7 +167,7 @@ const Usersprofile = () => {
                 )}
               </div>
               <div>
-                <div className="flex items-center text-lg font-bold gap-2 md:gap-8">
+                <div className="flex items-center text-lg gap-2 md:gap-8">
                   <span>
                     <h1 className="text-center text-sm">{user.length}</h1>
                     <span>Post</span>
@@ -211,7 +212,7 @@ const Usersprofile = () => {
               </div>
             </div>
             <div className="flex justify-center w-full">
-              <div className="grid grid-cols-3 p-2">
+              <div className="grid grid-cols-4 md:grid-cols-3">
                 {user
                   .slice(0)
                   .reverse()
@@ -222,7 +223,7 @@ const Usersprofile = () => {
                           src={pics.photo}
                           // src="logo192.png"
                           alt="profile pic"
-                          className="p-0.5 h-36 w-36 cursor-pointer"
+                          className="pr-0.5 pt-0.5 h-28 w-28 md:h-36 md:w-36 cursor-pointer"
                           onClick={() => {
                             toggel(pics);
                           }}
@@ -245,7 +246,7 @@ const Usersprofile = () => {
         </div>
       ) : (
         <div className="flex h-screen items-center justify-center bg-[#e2e8f0]">
-          loading.....
+          <FadeLoader color="#D91111" size={50} />
         </div>
       )}
     </>

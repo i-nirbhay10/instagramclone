@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Nevbar from "./Nevbar";
 import { toast } from "react-toastify";
 import { FaRegSmile } from "react-icons/fa";
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Createpost = () => {
@@ -97,7 +96,7 @@ const Createpost = () => {
     <>
       <Nevbar />
 
-      <div className="flex mx-auto md:mt-28 border border-slate-400 rounded-md max-w-md">
+      <div className="flex mx-auto md:mt-28 border border-slate-400 sm:rounded-md max-w-md">
         <div className="overflow-hidden w-full">
           <Link to="/profile">
             <div className="flex p-2 items-center shadow-xl">
@@ -111,7 +110,7 @@ const Createpost = () => {
             </div>
           </Link>
 
-          <div className="flex items-center justify-center block overflow-hidden p-1 h-96 w-full">
+          <div className="flex items-center justify-center block overflow-hidden h-80 w-full">
             <img
               src={
                 !getphoto
@@ -121,14 +120,14 @@ const Createpost = () => {
               // src="https://images.unsplash.com/getphoto-1692624571955-ad757fff0fb8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1691&q=80"
               // src="logo192.png"
               alt="profile pic"
-              className="block sm:px-4 pt-4"
+              className="block sm:p-2 "
             />
           </div>
           <div className="p-1">
             <div className="flex items-center pb-2">
               <label
                 htmlFor="getimg"
-                className="px-4 py-2 bg-blue-500 text-white rounded-md cursor-pointer hover:bg-blue-600"
+                className="px-2 py-1 bg-blue-500 text-white rounded-md cursor-pointer hover:bg-blue-600"
               >
                 Choose File
               </label>

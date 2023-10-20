@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { FaHeart, FaRegHeart, FaRegSmile } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import FadeLoader from "react-spinners/FadeLoader";
 import Comment from "./Comment";
 
 const Post = () => {
@@ -181,7 +182,7 @@ const Post = () => {
             .map((posts) => {
               return (
                 <div
-                  className="flex mx-auto mt-5 border border-slate-400  rounded-md max-w-lg"
+                  className="flex mx-auto mb-5 border border-slate-400  sm:rounded-md max-w-lg"
                   key={posts._id}
                 >
                   <div className="overflow-hidden  w-full">
@@ -289,7 +290,7 @@ const Post = () => {
         </div>
       ) : (
         <div className="flex h-screen items-center  justify-center bg-[#e2e8f0]">
-          loading.....
+          <FadeLoader color="#D91111" size={50} />
         </div>
       )}
     </>
